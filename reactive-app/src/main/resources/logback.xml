@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false">
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${application.home:-.}/logs/account.log</file>
+        <encoder>
+            <pattern>%date [%level] from %logger in %thread - %message%n%xException</pattern>
+        </encoder>
+    </appender>
+    <appender name="ASYNCFILE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE"/>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date{HH:mm:ss.SSS} %level %logger{50} - %message%n%xException{10}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="ch.qos" level="WARN"/>
+    <!--<logger name="org.mongodb.driver.protocol.command" level="DEBUG"/>-->
+    <logger name="net.schmizz.sshj" level="WARN"/>
+    <logger name="com.zaxxer" level="WARN"/>
+    <logger name="org.apache.ibatis" level="DEBUG"/>
+    <logger name="com.baomidou.mybatisplus" level="DEBUG"/>
+    <logger name="me.yangbajing" level="DEBUG"/>
+<!--    <logger name="org.springframework.web" level="DEBUG"/>-->
+
+    <root level="INFO">
+        <!--        <appender-ref ref="ASYNCFILE" />-->
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>
