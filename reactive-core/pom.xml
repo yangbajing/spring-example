@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>springreactive</artifactId>
+        <artifactId>spring-reactive-parent</artifactId>
         <groupId>me.yangbajing</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -11,11 +11,29 @@
 
     <artifactId>reactive-core</artifactId>
 
+    <properties>
+        <mybatis.plus.version>3.1.0</mybatis.plus.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>me.yangbajing</groupId>
             <artifactId>reactive-data</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis.plus.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+            <version>${mybatis.plus.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -1,23 +1,28 @@
 package me.yangbajing.springreactive.enums;
 
-public enum StatusEnum {
+import com.baomidou.mybatisplus.core.enums.IEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+public enum StatusEnum implements IEnum<Integer> {
     OK(200, "Ok"),
+
     CREATED(201, "Created"),
 
     NOT_FOUND(404, "Not Found"),
 
     INTERNAL_SERVER_ERROR(500, "INTERNAL_SERVER_ERROR");
 
-    private int status;
+    @JsonValue
+    private Integer value;
     private String message;
 
-    StatusEnum(int status, String message) {
-        this.status = status;
+    StatusEnum(Integer value, String message) {
+        this.value = value;
         this.message = message;
     }
 
-    public int getStatus() {
-        return status;
+    public Integer getValue() {
+        return value;
     }
 
     public String getMessage() {

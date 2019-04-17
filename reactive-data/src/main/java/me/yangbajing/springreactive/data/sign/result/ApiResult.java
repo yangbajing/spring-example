@@ -25,11 +25,11 @@ public final class ApiResult {
     }
 
     public static ApiResult ok(StatusEnum status, String message) {
-        return new ApiResult(status.getStatus(), message, null);
+        return new ApiResult(status.getValue(), message, null);
     }
 
     public static ApiResult ok(Object data, StatusEnum status) {
-        return new ApiResult(status.getStatus(), null, data);
+        return new ApiResult(status.getValue(), null, data);
     }
 
     public static ApiResult error(StatusEnum status) {
@@ -41,7 +41,7 @@ public final class ApiResult {
     }
 
     private static ApiResult error(StatusEnum status, String message, Object data) {
-        return new ApiResult(status.getStatus(), message, data);
+        return new ApiResult(status.getValue(), message, data);
     }
 
     public int getStatus() {
@@ -61,7 +61,7 @@ public final class ApiResult {
         return this;
     }
     public ApiResult setStatus(StatusEnum status) {
-        setStatus(status.getStatus());
+        setStatus(status.getValue());
         return this;
     }
 
