@@ -1,6 +1,5 @@
 package me.yangbajing.springreactive.business.component;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import me.yangbajing.springreactive.data.sign.result.ApiResult;
@@ -21,8 +20,8 @@ public class HttpComponent {
 
     public Mono<ApiResult> justApiResult(Throwable t) {
         ApiResult result = ApiResult.error(StatusEnum.INTERNAL_SERVER_ERROR);
-        ObjectNode json = objectMapper.createObjectNode().put("status", 500);
         if (t instanceof WebExchangeBindException) {
+            result.setStatus(StatusEnum.BAD_REQUEST);
             WebExchangeBindException e = (WebExchangeBindException) t;
             ObjectNode data = objectMapper.createObjectNode();
             e.getFieldErrors().forEach(field -> data.put(field.getField(), field.getDefaultMessage()));

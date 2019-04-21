@@ -3,14 +3,14 @@ package me.yangbajing.springreactive.data.sign.result;
 import me.yangbajing.springreactive.enums.StatusEnum;
 
 public final class ApiResult {
-    private int status;
+    private StatusEnum status;
     private String message;
     private Object data;
 
     private ApiResult() {
     }
 
-    public ApiResult(int status, String message, Object data) {
+    public ApiResult(StatusEnum status, String message, Object data) {
         this.status = status;
         this.message = message;
         this.data = data;
@@ -25,11 +25,11 @@ public final class ApiResult {
     }
 
     public static ApiResult ok(StatusEnum status, String message) {
-        return new ApiResult(status.getValue(), message, null);
+        return new ApiResult(status, message, null);
     }
 
     public static ApiResult ok(Object data, StatusEnum status) {
-        return new ApiResult(status.getValue(), null, data);
+        return new ApiResult(status, null, data);
     }
 
     public static ApiResult error(StatusEnum status) {
@@ -37,14 +37,10 @@ public final class ApiResult {
     }
 
     private static ApiResult error(StatusEnum status, String message) {
-        return error(status, message, null);
+        return new ApiResult(status, message, null);
     }
 
-    private static ApiResult error(StatusEnum status, String message, Object data) {
-        return new ApiResult(status.getValue(), message, data);
-    }
-
-    public int getStatus() {
+    public StatusEnum getStatus() {
         return status;
     }
 
@@ -56,12 +52,8 @@ public final class ApiResult {
         return data;
     }
 
-    public ApiResult setStatus(int status) {
-        this.status = status;
-        return this;
-    }
     public ApiResult setStatus(StatusEnum status) {
-        setStatus(status.getValue());
+        this.status = status;
         return this;
     }
 
