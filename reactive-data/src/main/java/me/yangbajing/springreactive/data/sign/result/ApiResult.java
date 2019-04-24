@@ -1,9 +1,13 @@
 package me.yangbajing.springreactive.data.sign.result;
 
+import lombok.Data;
+import me.yangbajing.springreactive.enums.SexType;
 import me.yangbajing.springreactive.enums.StatusEnum;
 
+@Data
 public final class ApiResult {
     private StatusEnum status;
+    private SexType sex = SexType.MEN;
     private String message;
     private Object data;
 
@@ -38,41 +42,5 @@ public final class ApiResult {
 
     private static ApiResult error(StatusEnum status, String message) {
         return new ApiResult(status, message, null);
-    }
-
-    public StatusEnum getStatus() {
-        return status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public ApiResult setStatus(StatusEnum status) {
-        this.status = status;
-        return this;
-    }
-
-    public ApiResult setMessage(String message) {
-        this.message = message;
-        return this;
-    }
-
-    public ApiResult setData(Object data) {
-        this.data = data;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return "ApiResult{" +
-                "status=" + status +
-                ", message='" + message + '\'' +
-                ", data=" + data +
-                '}';
     }
 }

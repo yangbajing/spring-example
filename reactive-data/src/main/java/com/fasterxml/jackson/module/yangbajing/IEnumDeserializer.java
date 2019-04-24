@@ -1,5 +1,6 @@
 package com.fasterxml.jackson.module.yangbajing;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.databind.util.EnumResolver;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -33,9 +35,19 @@ public class IEnumDeserializer extends StdScalarDeserializer<Enum<?>> implements
 
     @Override
     public Enum<?> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        Optional<Method> maybe = Arrays.stream(enumResolver.getEnumClass().getMethods())
+        Class<Enum<?>> t = enumResolver.getEnumClass();
+        Optional<Method> maybe = Arrays.stream(t.getMethods())
                 .filter(method -> method.getAnnotation(JsonValue.class) != null && method.getReturnType() == Integer.class)
                 .findFirst();
+        if (!maybe.isPresent()) {
+            Field field = dealEnumType(t).orElseThrow(() -> new JsonParseException(p, String.format("Could not find @JsonValue in Class: %s.", t.getName())));
+            try {
+                maybe = Optional.ofNullable(t.getDeclaredMethod(getMethodCapitalize(field, field.getName())));
+            } catch (NoSuchMethodException e) {
+                throw new JsonParseException(p, "@JsonValue字段需要定义get/is方法");
+            }
+        }
+
         for (Enum<?> en : enums) {
             Enum<?> anEnum;
             if (maybe.isPresent()) {
@@ -76,4 +88,13 @@ public class IEnumDeserializer extends StdScalarDeserializer<Enum<?>> implements
         return this;
     }
 
+    public static Optional<Field> dealEnumType(Class<?> clazz) {
+        return clazz.isEnum() ? Arrays.stream(clazz.getDeclaredFields()).filter(field -> field.isAnnotationPresent(JsonValue.class)).findFirst() : Optional.empty();
+    }
+
+    public static String getMethodCapitalize(Field field, final String str) {
+        Class<?> fieldType = field.getType();
+        // fix #176
+        return StringUtils.concatCapitalize(boolean.class.equals(fieldType) ? "is" : "get", str);
+    }
 }
