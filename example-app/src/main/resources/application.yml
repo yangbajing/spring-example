@@ -1,0 +1,25 @@
+server:
+  shutdown: graceful
+  messages:
+    encoding: UTF-8
+  jackson:
+    time-zone: GMT+8
+    locale: zh_CN
+    serialization:
+      WRITE_DURATIONS_AS_TIMESTAMPS: false
+      WRITE_DATES_WITH_ZONE_ID: false
+      WRITE_DATES_AS_TIMESTAMPS: false
+      WRITE_DATE_KEYS_AS_TIMESTAMPS: false
+      WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+      WRITE_ENUMS_USING_TO_STRING: true
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+mybatis-plus:
+  type-aliases-package: com.iciyun.data.core.domain,com.iciyun.data.core.db
+  type-enums-package: com.iciyun.common.enums
+  type-handlers-package: com.iciyun.ext.mybatis.handlers
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    jdbc-type-for-null: null
+  global-config:
+    banner: false

@@ -6,4 +6,6 @@
 - Reactor
 - WebFlux
 - JUnit 5
-
+- R2DBC
+- Mybatis/Mybatis-plus
+- PostgreSQL
